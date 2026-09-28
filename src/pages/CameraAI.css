@@ -1,0 +1,228 @@
+.camera-tabs {
+  margin-bottom: var(--space-xl);
+}
+
+.camera-ai-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: var(--space-base);
+  align-items: start;
+}
+
+.camera-main {
+  min-width: 0;
+}
+
+.camera-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-base);
+  margin-bottom: var(--space-lg);
+}
+
+.camera-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-base);
+}
+
+.camera-select {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  font-size: var(--fs-sm);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+}
+
+/* Feed */
+.camera-feed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #000;
+}
+
+.camera-feed-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  background: radial-gradient(60% 60% at 50% 45%, #1d1d1c, #0c0c0b);
+}
+
+/* Top-right: most cameras burn their own label into the top-left corner */
+.camera-overlay-info {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+}
+
+.camera-overlay-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-2xl) var(--space-lg) var(--space-base);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-base);
+  pointer-events: none;
+}
+
+.camera-overlay-name {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+}
+
+.camera-overlay-org {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+}
+
+/* Stats column */
+.camera-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-top: var(--space-sm);
+}
+
+.camera-count {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: var(--space-lg) var(--space-xl);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+}
+
+.camera-count-value {
+  font-size: 2.25rem;
+  font-weight: var(--fw-medium);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.camera-status-card {
+  margin-top: var(--space-sm);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  background:
+    linear-gradient(160deg, rgba(179, 254, 239, 0.14), rgba(185, 215, 255, 0.06) 60%, transparent),
+    var(--bg-card);
+  border: 1px solid rgba(179, 254, 239, 0.18);
+}
+
+.camera-status-card.is-busy {
+  background:
+    linear-gradient(160deg, rgba(255, 217, 198, 0.16), rgba(255, 247, 168, 0.06) 60%, transparent),
+    var(--bg-card);
+  border-color: rgba(255, 217, 198, 0.2);
+}
+
+.camera-status-title {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-medium);
+  letter-spacing: -0.02em;
+}
+
+/* Search */
+.camera-search-input {
+  width: 100%;
+  padding: 12px 18px;
+  font-size: var(--fs-base);
+  border-radius: var(--radius-full);
+}
+
+.camera-search-results {
+  display: flex;
+  flex-direction: column;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.camera-search-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  padding: 14px var(--space-sm);
+  border-bottom: 1px solid var(--border-card);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.camera-search-item:focus-visible {
+  outline: 2px solid var(--text-accent);
+  outline-offset: -2px;
+}
+
+.camera-search-item .fw-medium {
+  color: var(--text-primary);
+}
+
+.camera-search-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.camera-search-item.is-current .fw-medium::after {
+  content: ' · กำลังดู';
+  color: var(--accent-cyan);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-xs);
+}
+
+.camera-search-empty {
+  padding: var(--space-xl) var(--space-sm);
+}
+
+@media (max-width: 1024px) {
+  .camera-ai-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .camera-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .camera-stats .section-eyebrow,
+  .camera-status-card {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .camera-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .camera-selector {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

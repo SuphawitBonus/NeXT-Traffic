@@ -1,0 +1,76 @@
+.water-tabs {
+  margin-bottom: var(--space-xl);
+}
+
+.water-alert-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-xl);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(100deg, rgba(255, 157, 140, 0.12), rgba(255, 217, 198, 0.04) 60%, transparent),
+    var(--bg-card);
+  border: 1px solid rgba(255, 157, 140, 0.2);
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: var(--space-base);
+}
+
+.water-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-base);
+}
+
+.water-stations-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.water-station-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 14px var(--space-sm);
+  border-bottom: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.water-station-item:last-child {
+  border-bottom: none;
+}
+
+.water-station-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.water-station-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.dot-red { background: var(--accent-red); color: var(--accent-red); }
+.dot-orange { background: var(--accent-orange); color: var(--accent-orange); }
+.dot-green { background: var(--accent-green); color: var(--accent-green); }
+
+@media (max-width: 1200px) {
+  .water-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .water-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .water-alert-banner {
+    flex-direction: column;
+  }
+}

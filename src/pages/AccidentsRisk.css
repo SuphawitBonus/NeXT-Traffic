@@ -1,0 +1,113 @@
+.accident-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-base);
+}
+
+.accident-insight-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-xl);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(100deg, rgba(255, 247, 168, 0.1), rgba(185, 215, 255, 0.04) 60%, transparent),
+    var(--bg-card);
+  border: 1px solid rgba(255, 247, 168, 0.16);
+  font-size: var(--fs-md);
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+.accident-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--space-base);
+  align-items: start;
+}
+
+.blackspot-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-base);
+}
+
+.blackspot-item {
+  display: flex;
+  gap: var(--space-base);
+  padding: var(--space-base) 0;
+}
+
+.blackspot-rank {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  flex-shrink: 0;
+  color: var(--text-primary);
+}
+
+.blackspot-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.blackspot-measures {
+  margin-top: var(--space-md);
+  padding-left: var(--space-lg);
+  list-style-type: disc;
+}
+
+.blackspot-measures li {
+  margin-bottom: var(--space-xs);
+  line-height: 1.6;
+}
+
+.blackspot-measures li::marker {
+  color: var(--text-muted);
+}
+
+.district-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.district-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-card);
+  font-size: var(--fs-sm);
+}
+
+.district-item:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 1200px) {
+  .accident-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .accident-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .accident-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .accident-insight-banner {
+    flex-direction: column;
+  }
+}
