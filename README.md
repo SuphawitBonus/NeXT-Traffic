@@ -77,6 +77,7 @@ npm run dev              # Vite dev server (proxy /api ไปที่ 8787)
 
 - `camera.json` ของ Longdo และ stream HLS ของ ITIC เสิร์ฟผ่าน **https** ทั้งหมด และตอบ `Access-Control-Allow-Origin: *` จึงเล่นได้จากหน้าเว็บ https ตรง ๆ โดยไม่ต้อง proxy และไม่ติด mixed content
 - `/api/accidents` ดึงจาก data.go.th ซึ่งช้า (ปกติ 5-30 วินาที และบางครั้งตอบ 502) จึงตั้ง `maxDuration: 120` และใส่ `s-maxage=21600` ให้ CDN ของ Vercel แคชไว้ 6 ชั่วโมง — cold start ตัวแรกจะช้า ที่เหลือเร็ว เช่นเดียวกับ `/api/water` ที่แคช 10 นาที
+- `regions: ["sin1"]` ใน `vercel.json` บังคับให้ function รันที่สิงคโปร์ ตอน deploy ครั้งแรกที่ปล่อยให้รันที่ `iad1` (สหรัฐ) data.go.th ตอบ 4xx กลับมาทันทีทุกครั้ง ทั้งที่ endpoint เดียวกันเรียกได้ปกติจากไทย ถ้าหน้าอุบัติเหตุยังขึ้นว่าดึงข้อมูลจริงไม่ได้ สาเหตุน่าจะมาจากทางนี้ (ขั้นต่อไปคือเก็บ snapshot ของข้อมูลไว้ตอน build แล้วให้ function ใช้เป็น fallback — ข้อมูลชุดนี้อัปเดตเป็นรายเดือนอยู่แล้ว จึงไม่เสียความสด)
 - in-memory cache ใน `server/sources/http.js` ยังทำงาน แต่ช่วยได้เฉพาะ instance ที่ยัง warm อยู่ ตัวที่ทำให้ production เร็วจริงคือ CDN cache
 
 ## แหล่งข้อมูล

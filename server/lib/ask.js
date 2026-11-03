@@ -133,7 +133,14 @@ export function errorMessage(err) {
   }
   if (err instanceof Anthropic.PermissionDeniedError) return 'API key นี้ไม่มีสิทธิ์ใช้โมเดลนี้'
   if (err instanceof Anthropic.RateLimitError) return 'มีคนใช้งานเยอะเกินไป รอสักครู่แล้วลองใหม่'
-  if (err instanceof Anthropic.BadRequestError) return 'คำขอไม่ถูกต้อง: ' + err.message
+  if (err instanceof Anthropic.BadRequestError) {
+    // The API reports an empty account as a 400; say so in Thai instead of
+    // echoing the provider's raw English payload to whoever is using the demo.
+    if (/credit balance|purchase credits|billing/i.test(String(err.message))) {
+      return 'เครดิต Claude API ของบัญชีนี้หมด เจ้าของเว็บต้องเติมเครดิตที่ Anthropic Console ก่อนจึงจะถามได้'
+    }
+    return 'คำขอไม่ถูกต้อง ลองถามใหม่ด้วยคำถามที่สั้นลง'
+  }
   if (err instanceof Anthropic.InternalServerError) return 'ระบบ AI ขัดข้องชั่วคราว ลองใหม่อีกครั้ง'
   if (err instanceof Anthropic.APIConnectionError) return 'เชื่อมต่อ Claude API ไม่ได้ ตรวจสอบอินเทอร์เน็ต'
   if (err instanceof Anthropic.APIError) return `Claude API ตอบกลับผิดพลาด (${err.status})`
