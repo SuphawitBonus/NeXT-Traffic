@@ -16,7 +16,7 @@ import {
 } from './lib/ask.js'
 import { checkRateLimit, clientIp, rateLimitMessage } from './lib/ratelimit.js'
 import { getWater } from './sources/water.js'
-import { getAccidents } from './sources/accidents.js'
+import { getAccidents, getAccidentsOrSnapshot } from './sources/accidents.js'
 
 try {
   process.loadEnvFile('.env')
@@ -102,7 +102,7 @@ const server = http.createServer(async (req, res) => {
     return handleAsk(req, res)
   }
   if (req.method === 'GET' && (url.pathname === '/api/water' || url.pathname === '/api/accidents')) {
-    const get = url.pathname === '/api/water' ? getWater : getAccidents
+    const get = url.pathname === '/api/water' ? getWater : getAccidentsOrSnapshot
     try {
       return sendJson(res, 200, await get())
     } catch (err) {

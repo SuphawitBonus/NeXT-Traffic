@@ -1,9 +1,9 @@
 // GET /api/accidents — road-death statistics (RTDDI) from data.go.th
-import { getAccidents } from '../server/sources/accidents.js'
+import { getAccidentsOrSnapshot } from '../server/sources/accidents.js'
 
 export async function GET() {
   try {
-    const data = await getAccidents()
+    const data = await getAccidentsOrSnapshot()
     return new Response(JSON.stringify(data), {
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

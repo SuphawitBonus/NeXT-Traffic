@@ -1,4 +1,5 @@
 import { fetchJson, cached } from './http.js'
+import snapshot from '../data/accidents-snapshot.js'
 
 // "ข้อมูลผู้เสียชีวิตจากอุบัติเหตุทางถนน (3 ฐาน)", Department of Disease Control, one CSV resource per Buddhist year
 const CKAN = 'https://data.go.th/api/3/action'
@@ -120,3 +121,23 @@ async function load() {
 }
 
 export const getAccidents = cached(6 * 60 * 60_000, load)
+
+// data.go.th refuses requests from AWS address ranges, which is where Vercel
+// runs both the functions and the build, so in production the live call always
+// fails and this committed snapshot is what gets served. It carries real
+// numbers from the same dataset; `stale: true` makes the page say so.
+// Refresh it with `npm run snapshot` from a network data.go.th answers.
+export async function getAccidentsOrSnapshot() {
+  try {
+    return await getAccidents()
+  } catch (err) {
+    console.warn('[accidents] live fetch failed, serving snapshot:', err?.message)
+    return { ...snapshot, stale: true, fromSnapshot: true }
+  }
+}
+
+// Whatever is cached right now, falling back to the snapshot — for the AI
+// context, which must not wait on a fetch.
+export function peekAccidents() {
+  return getAccidents.peek() ?? snapshot
+}

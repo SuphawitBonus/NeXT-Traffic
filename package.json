@@ -7,6 +7,7 @@
     "dev": "vite",
     "api": "node --watch server/index.js",
     "build": "tsc && vite build",
+    "snapshot": "node scripts/snapshot-accidents.mjs",
     "preview": "vite preview"
   },
   "devDependencies": {

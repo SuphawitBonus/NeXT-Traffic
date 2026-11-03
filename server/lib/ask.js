@@ -2,7 +2,7 @@
 // and the deployed Vercel function (api/ask.js) so both behave identically.
 import Anthropic from '@anthropic-ai/sdk'
 import { getWater } from '../sources/water.js'
-import { getAccidents } from '../sources/accidents.js'
+import { peekAccidents } from '../sources/accidents.js'
 
 export const MODEL = 'claude-opus-5'
 
@@ -88,7 +88,7 @@ export function parseAskBody(body) {
 // Real data the server already holds is added here rather than trusted from the browser
 function serverData() {
   const water = getWater.peek()
-  const acc = getAccidents.peek()
+  const acc = peekAccidents()
   return {
     water_levels: water && {
       source: water.source,

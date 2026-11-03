@@ -23,6 +23,7 @@ npm run dev              # Vite dev server (proxy /api ไปที่ 8787)
 | `npm run dev` | Vite dev server |
 | `npm run api` | API server สำหรับ dev (`server/index.js`) |
 | `npm run build` | `tsc` + `vite build` → `dist/` |
+| `npm run snapshot` | ดึงข้อมูลอุบัติเหตุจาก data.go.th มาเก็บเป็น `server/data/accidents-snapshot.js` (ดูหัวข้อ Deploy) |
 | `npm run preview` | เสิร์ฟ `dist/` เพื่อตรวจก่อน deploy |
 
 หน้า "ถาม AI" ใช้ได้เฉพาะเมื่อมี `ANTHROPIC_API_KEY` ถ้ายังไม่ได้ตั้ง หน้าเว็บจะขึ้นวิธีตั้งค่าให้ แทนที่จะพัง
@@ -77,7 +78,12 @@ npm run dev              # Vite dev server (proxy /api ไปที่ 8787)
 
 - `camera.json` ของ Longdo และ stream HLS ของ ITIC เสิร์ฟผ่าน **https** ทั้งหมด และตอบ `Access-Control-Allow-Origin: *` จึงเล่นได้จากหน้าเว็บ https ตรง ๆ โดยไม่ต้อง proxy และไม่ติด mixed content
 - `/api/accidents` ดึงจาก data.go.th ซึ่งช้า (ปกติ 5-30 วินาที และบางครั้งตอบ 502) จึงตั้ง `maxDuration: 120` และใส่ `s-maxage=21600` ให้ CDN ของ Vercel แคชไว้ 6 ชั่วโมง — cold start ตัวแรกจะช้า ที่เหลือเร็ว เช่นเดียวกับ `/api/water` ที่แคช 10 นาที
-- `regions: ["sin1"]` ใน `vercel.json` บังคับให้ function รันที่สิงคโปร์ ตอน deploy ครั้งแรกที่ปล่อยให้รันที่ `iad1` (สหรัฐ) data.go.th ตอบ 4xx กลับมาทันทีทุกครั้ง ทั้งที่ endpoint เดียวกันเรียกได้ปกติจากไทย ถ้าหน้าอุบัติเหตุยังขึ้นว่าดึงข้อมูลจริงไม่ได้ สาเหตุน่าจะมาจากทางนี้ (ขั้นต่อไปคือเก็บ snapshot ของข้อมูลไว้ตอน build แล้วให้ function ใช้เป็น fallback — ข้อมูลชุดนี้อัปเดตเป็นรายเดือนอยู่แล้ว จึงไม่เสียความสด)
+- **data.go.th ปฏิเสธคำขอจาก Vercel** ทดสอบแล้วทั้ง `iad1` (สหรัฐ) และ `sin1` (สิงคโปร์) ตอบ 4xx กลับมาภายใน 0.3 วินาที ขณะที่ endpoint เดียวกันเรียกได้ปกติจากเครื่องในไทยและจาก datacenter ที่ไม่ใช่ AWS — น่าจะบล็อกที่ระดับ IP range ของ AWS ซึ่ง Vercel ใช้ทั้งตอนรัน function และตอน build
+
+  ทางออกคือ `server/data/accidents-snapshot.js` ที่ commit ไว้ใน repo `getAccidentsOrSnapshot()` จะลองเรียก API จริงก่อนเสมอ ถ้าไม่ได้จึงใช้ snapshot พร้อมตั้ง `stale: true` ให้หน้าเว็บขึ้นว่า *"ใช้ข้อมูลเก่า ดึงใหม่ไม่สำเร็จ"* — เป็นตัวเลขจริงจากชุดข้อมูลเดียวกัน ไม่ใช่ข้อมูลจำลอง
+
+  ชุดข้อมูลนี้ออกเป็นรายเดือนและล่าช้าหลายเดือนอยู่แล้ว (ล่าสุดถึง 31 มี.ค. 2026) รีเฟรชปีละไม่กี่ครั้งก็พอ: รัน `npm run snapshot` **จากเครือข่ายในไทย** แล้ว commit ไฟล์ที่ได้
+- `regions: ["sin1"]` ใน `vercel.json` ไม่ได้ช่วยเรื่อง data.go.th แต่คงไว้เพราะ ThaiWater กับ Longdo อยู่ในไทย รันที่สิงคโปร์จึง latency ต่ำกว่า `iad1`
 - in-memory cache ใน `server/sources/http.js` ยังทำงาน แต่ช่วยได้เฉพาะ instance ที่ยัง warm อยู่ ตัวที่ทำให้ production เร็วจริงคือ CDN cache
 
 ## แหล่งข้อมูล
