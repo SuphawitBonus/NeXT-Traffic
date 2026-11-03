@@ -2,10 +2,15 @@
 
 /* =====================================================
    DESIGN SYSTEM — NextTraffic
-   Warm-neutral dark canvas, restrained type, pastel accents
+   Warm-neutral canvas (dark default + light), restrained type, soft accents.
+   `.theme-dark` re-applies the dark palette to a subtree (hero, video frames)
+   so those stay dark inside the light theme.
    ===================================================== */
 
-:root {
+:root,
+.theme-dark {
+  color-scheme: dark;
+
   /* — Surfaces — */
   --bg-primary: #141413;
   --bg-secondary: #171716;
@@ -14,19 +19,32 @@
   --bg-card-hover: #20201f;
   --bg-sidebar: #111110;
   --bg-sidebar-active: #242423;
+  --bg-hero: #0f0f0e;
+  --bg-nav: rgba(17, 17, 16, 0.85);
+  --bg-glass: rgba(26, 26, 25, 0.9);
+  --bg-map: #10100f;
+
+  /* Neutral overlays for hovers, hairlines and tracks */
+  --ov-1: rgba(255, 255, 255, 0.02);
+  --ov-2: rgba(255, 255, 255, 0.04);
+  --ov-3: rgba(255, 255, 255, 0.06);
+  --ov-4: rgba(255, 255, 255, 0.09);
+  --ov-5: rgba(255, 255, 255, 0.14);
+  --ov-6: rgba(255, 255, 255, 0.3);
 
   --border-primary: #262624;
   --border-secondary: #33332f;
   --border-accent: #4a4a45;
-  --border-card: rgba(255, 255, 255, 0.06);
+  --border-card: var(--ov-3);
 
   /* — Text — */
   --text-primary: #f8f8f5;
   --text-secondary: #b0b0a8;
   --text-muted: #7a7a73;
   --text-accent: #b9d7ff;
+  --on-primary: #141413;
 
-  /* — Pastel accents — */
+  /* — Accents — */
   --accent-primary: #ffe9a8;
   --accent-primary-dim: rgba(255, 233, 168, 0.1);
   --accent-green: #9fe6b8;
@@ -48,6 +66,73 @@
   --traffic-yellow: #f5c26b;
   --traffic-red: #ff7b6b;
 
+  --shadow-elevated: 0 24px 60px rgba(0, 0, 0, 0.45);
+  --map-tile-filter: invert(1) hue-rotate(180deg) brightness(0.72) contrast(1.08) saturate(0.12) sepia(0.12);
+}
+
+.theme-dark {
+  color: var(--text-primary);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg-primary: #fbfbf9;
+  --bg-secondary: #f6f6f3;
+  --bg-tertiary: #efefeb;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fdfdfb;
+  --bg-sidebar: #f7f7f4;
+  --bg-sidebar-active: #ecece7;
+  --bg-hero: #0f0f0e;
+  --bg-nav: rgba(251, 251, 249, 0.85);
+  --bg-glass: rgba(255, 255, 255, 0.94);
+  --bg-map: #ecece8;
+
+  --ov-1: rgba(20, 20, 19, 0.02);
+  --ov-2: rgba(20, 20, 19, 0.035);
+  --ov-3: rgba(20, 20, 19, 0.06);
+  --ov-4: rgba(20, 20, 19, 0.08);
+  --ov-5: rgba(20, 20, 19, 0.12);
+  --ov-6: rgba(20, 20, 19, 0.28);
+
+  --border-primary: #e7e7e2;
+  --border-secondary: #d9d9d3;
+  --border-accent: #b9b9b1;
+  --border-card: rgba(20, 20, 19, 0.08);
+
+  --text-primary: #1a1a19;
+  --text-secondary: #56564f;
+  --text-muted: #85857d;
+  --text-accent: #2f63c9;
+  --on-primary: #fbfbf9;
+
+  /* Pastels wash out on white, so the light palette uses deeper tones */
+  --accent-primary: #946d00;
+  --accent-primary-dim: rgba(196, 150, 0, 0.12);
+  --accent-green: #1c8a4e;
+  --accent-green-dim: rgba(28, 138, 78, 0.1);
+  --accent-orange: #b35d0b;
+  --accent-orange-dim: rgba(214, 120, 30, 0.12);
+  --accent-red: #c83b2d;
+  --accent-red-dim: rgba(200, 59, 45, 0.09);
+  --accent-blue: #2d66cc;
+  --accent-blue-dim: rgba(45, 102, 204, 0.09);
+  --accent-cyan: #0d7f74;
+  --accent-pink: #c2416b;
+  --accent-purple: #6a4dc4;
+
+  --grad-aurora: linear-gradient(95deg, #2f6fdc 0%, #0d9488 38%, #b8860b 70%, #d9622b 100%);
+
+  --traffic-green: #2ea865;
+  --traffic-yellow: #e0a526;
+  --traffic-red: #e5533f;
+
+  --shadow-elevated: 0 24px 60px rgba(20, 20, 19, 0.12), 0 2px 8px rgba(20, 20, 19, 0.05);
+  --map-tile-filter: saturate(0.55) contrast(0.96) brightness(1.02);
+}
+
+:root {
   /* — Typography — */
   --font-primary: 'Inter', 'Anuphan', system-ui, -apple-system, sans-serif;
   --font-display: 'Inter', 'Anuphan', system-ui, sans-serif;
@@ -92,8 +177,7 @@
   --radius-full: 999px;
 
   /* — Shadows — */
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
-  --shadow-elevated: 0 24px 60px rgba(0, 0, 0, 0.45);
+  --shadow-card: 0 1px 0 var(--ov-2) inset;
   --shadow-glow-yellow: none;
   --shadow-glow-blue: none;
 
@@ -118,7 +202,6 @@
 }
 
 html {
-  color-scheme: dark;
   font-size: 16px;
   scroll-behavior: smooth;
 }
@@ -188,7 +271,7 @@ input::placeholder {
 
 input:focus, select:focus, textarea:focus {
   border-color: var(--border-accent);
-  background: #242423;
+  background: var(--bg-sidebar-active);
 }
 
 ::-webkit-scrollbar {
@@ -267,7 +350,7 @@ input:focus, select:focus, textarea:focus {
   align-items: center;
   gap: var(--space-xl);
   padding: 0 var(--space-xl);
-  background: rgba(17, 17, 16, 0.85);
+  background: var(--bg-nav);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-primary);
@@ -331,7 +414,7 @@ input:focus, select:focus, textarea:focus {
 
 .topnav-group.open .topnav-trigger {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--ov-3);
 }
 
 .topnav-chevron {
@@ -367,7 +450,7 @@ input:focus, select:focus, textarea:focus {
   width: 340px;
   padding: 6px;
   border-radius: var(--radius-lg);
-  background: rgba(26, 26, 25, 0.96);
+  background: var(--bg-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-secondary);
@@ -386,7 +469,7 @@ input:focus, select:focus, textarea:focus {
 
 .topnav-item:hover,
 .topnav-item.active {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--ov-3);
   color: var(--text-primary);
 }
 
@@ -398,7 +481,7 @@ input:focus, select:focus, textarea:focus {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--ov-2);
   border: 1px solid var(--border-card);
   color: var(--text-secondary);
   transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-base);
@@ -480,7 +563,7 @@ input:focus, select:focus, textarea:focus {
   font-weight: var(--fw-bold);
   line-height: 16px;
   text-align: center;
-  border: 2px solid #111110;
+  border: 2px solid var(--bg-sidebar);
   box-sizing: content-box;
   animation: badge-pop 0.4s var(--ease-out) both;
 }
@@ -506,7 +589,7 @@ input:focus, select:focus, textarea:focus {
 
   .topnav-item:hover .topnav-item-icon {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--ov-4);
     transform: scale(1.05);
   }
 
@@ -518,6 +601,32 @@ input:focus, select:focus, textarea:focus {
   .topnav-bell:hover svg {
     animation: bell-ring 0.6s ease;
   }
+
+  .topnav-theme:hover svg {
+    transform: rotate(-30deg) scale(1.08);
+  }
+}
+
+.topnav-theme {
+  color: var(--text-secondary);
+}
+
+.topnav-theme svg {
+  transition: transform 500ms var(--ease-out);
+  animation: theme-icon-in 0.45s var(--ease-out);
+}
+
+@keyframes theme-icon-in {
+  from { transform: rotate(-90deg) scale(0.6); opacity: 0; }
+  to { transform: rotate(0) scale(1); opacity: 1; }
+}
+
+/* Added for a moment while switching themes (see src/lib/theme.js) */
+.theme-anim,
+.theme-anim *,
+.theme-anim *::before,
+.theme-anim *::after {
+  transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease, fill 300ms ease !important;
 }
 
 @keyframes bell-ring {
@@ -584,7 +693,7 @@ input:focus, select:focus, textarea:focus {
 
 .sidebar-nav-item:hover {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--ov-2);
 }
 
 .sidebar-nav-item.active {
@@ -700,7 +809,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .card-glass {
-  background: rgba(26, 26, 25, 0.72);
+  background: var(--bg-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -729,7 +838,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .card-stat:hover {
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: var(--ov-5);
   background: var(--bg-card-hover);
 }
 
@@ -749,7 +858,7 @@ input:focus, select:focus, textarea:focus {
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--ov-2);
 }
 
 .card-stat .stat-header .stat-status {
@@ -805,12 +914,12 @@ input:focus, select:focus, textarea:focus {
 
 .btn-primary {
   background: var(--text-primary);
-  color: #141413;
+  color: var(--on-primary);
 }
 
 .btn-primary:hover {
-  background: #ffffff;
-  color: #141413;
+  background: var(--text-primary);
+  color: var(--on-primary);
   opacity: 0.9;
 }
 
@@ -822,7 +931,7 @@ input:focus, select:focus, textarea:focus {
 
 .btn-outline:hover {
   border-color: var(--border-accent);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--ov-2);
   color: var(--text-primary);
 }
 
@@ -833,7 +942,7 @@ input:focus, select:focus, textarea:focus {
 
 .btn-ghost:hover {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--ov-3);
 }
 
 .btn-sm {
@@ -922,14 +1031,14 @@ input:focus, select:focus, textarea:focus {
 }
 
 .badge-neutral {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--ov-3);
   color: var(--text-secondary);
 }
 
 .badge-live {
   background: rgba(20, 20, 19, 0.6);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--ov-5);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -1005,7 +1114,7 @@ input:focus, select:focus, textarea:focus {
   background: var(--bg-sidebar-active);
   color: var(--text-primary);
   font-weight: var(--fw-medium);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  box-shadow: 0 0 0 1px var(--ov-3) inset;
 }
 
 .tab-count {
@@ -1075,7 +1184,7 @@ input:focus, select:focus, textarea:focus {
   border-radius: 50%;
   background: var(--text-primary);
   border: 4px solid var(--bg-card);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 1px var(--ov-6);
   transform: translate(-50%, -50%);
   transition: left var(--transition-slow);
 }
@@ -1175,14 +1284,14 @@ input:focus, select:focus, textarea:focus {
   padding: var(--space-md);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-card);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--ov-1);
   cursor: pointer;
   transition: border-color var(--transition-fast), background var(--transition-fast);
 }
 
 .map-layer-toggle:hover {
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--ov-5);
+  background: var(--ov-2);
 }
 
 .map-layer-toggle .toggle-icon {
@@ -1289,7 +1398,7 @@ input:focus, select:focus, textarea:focus {
   top: 1px;
   width: 5px;
   height: 10px;
-  border: solid #141413;
+  border: solid var(--on-primary);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
@@ -1350,7 +1459,7 @@ input:focus, select:focus, textarea:focus {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: 2px solid var(--ov-5);
   border-top-color: var(--text-primary);
   animation: spin 0.9s linear infinite;
 }
@@ -1467,12 +1576,12 @@ input:focus, select:focus, textarea:focus {
    LEAFLET OVERRIDES
    ===================================================== */
 .leaflet-container {
-  background: #10100f !important;
+  background: var(--bg-map) !important;
   font-family: var(--font-primary) !important;
 }
 
 .leaflet-tile-pane {
-  filter: invert(1) hue-rotate(180deg) brightness(0.72) contrast(1.08) saturate(0.12) sepia(0.12);
+  filter: var(--map-tile-filter);
 }
 
 .leaflet-control-zoom {
@@ -1509,7 +1618,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .leaflet-control-attribution {
-  background: rgba(20, 20, 19, 0.8) !important;
+  background: var(--bg-glass) !important;
   color: var(--text-muted) !important;
   font-size: 0.6875rem !important;
 }
@@ -1648,7 +1757,7 @@ input:focus, select:focus, textarea:focus {
 
   .card:hover,
   .camera-count:hover {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--ov-4);
   }
 
   /* Clickable stat cards lift and their arrow nudges out */
@@ -1663,12 +1772,12 @@ input:focus, select:focus, textarea:focus {
 
   .card-stat:hover .stat-icon {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--ov-4);
     transform: scale(1.06);
   }
 
   .card-stat:hover .stat-value {
-    color: #fff;
+    color: var(--text-primary);
   }
 
   /* Buttons */
@@ -1689,7 +1798,7 @@ input:focus, select:focus, textarea:focus {
   }
 
   .btn-outline:hover {
-    background: rgba(255, 255, 255, 0.07);
+    background: var(--ov-3);
   }
 
   /* Sidebar */
@@ -1710,7 +1819,7 @@ input:focus, select:focus, textarea:focus {
   .tab-item:not(.active):hover,
   .camera-tab-item:not(.active):hover,
   .water-tab-item:not(.active):hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--ov-2);
   }
 
   .tab-item svg,
@@ -1749,7 +1858,7 @@ input:focus, select:focus, textarea:focus {
 
   .road-table-row:hover,
   .district-item:hover {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.035), transparent);
+    background: linear-gradient(90deg, var(--ov-2), transparent);
   }
 
   .report-item:hover .report-time {

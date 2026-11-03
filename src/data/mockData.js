@@ -245,6 +245,17 @@ export const CCTV_CAMERAS = [
   },
 ]
 
+export const ROAD_DATA = [
+  { name: 'ถ.สุขุมวิท', score: 35, status: 'ติดขัด', vehicles: 1250 },
+  { name: 'ถ.พหลโยธิน', score: 52, status: 'ปานกลาง', vehicles: 980 },
+  { name: 'ถ.รัชดาภิเษก', score: 45, status: 'ปานกลาง', vehicles: 1100 },
+  { name: 'ถ.วิภาวดีฯ', score: 68, status: 'คล่องตัว', vehicles: 750 },
+  { name: 'ถ.เพชรบุรี', score: 30, status: 'ติดขัด', vehicles: 1320 },
+  { name: 'ถ.พระราม 4', score: 42, status: 'ปานกลาง', vehicles: 890 },
+  { name: 'ถ.สาทร', score: 28, status: 'ติดขัด', vehicles: 1400 },
+  { name: 'ถ.ศรีนครินทร์', score: 75, status: 'คล่องตัว', vehicles: 620 },
+]
+
 // Simulated flood monitoring points
 export const FLOOD_POINTS = [
   { id: 1, name: 'คลองเปรมประชากร', lat: 13.8120, lng: 100.5230, level: 'ล้น', waterLevel: 2.1 },

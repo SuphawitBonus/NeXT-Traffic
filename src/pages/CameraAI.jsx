@@ -1,7 +1,9 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Eye, Search, Monitor, Crosshair, ArrowLeftRight, Camera, ChevronRight } from 'lucide-react'
 import LiveVideo from '../components/LiveVideo'
+import DetectionOverlay from '../components/DetectionOverlay'
+import { useVehicleDetection } from '../lib/vehicleDetection'
 import FavoriteButton from '../components/FavoriteButton'
 import { fetchBangkokCameras } from '../data/cameras'
 import './CameraAI.css'
@@ -63,12 +65,27 @@ export default function CameraAI() {
     setActiveTab('live-detect')
   }
 
-  // Placeholder counts until the detector is wired up; stable per camera so they don't jump on re-render
-  const counts = useMemo(() => {
-    const seed = [...String(selectedCameraId)].reduce((s, ch) => s + ch.charCodeAt(0), 0)
-    return { cars: 3 + (seed % 15), bikes: seed % 5, trucks: seed % 3 }
-  }, [selectedCameraId])
-  const busy = counts.cars >= 12
+  const videoRef = useRef(null)
+  const [aiOn, setAiOn] = useState(true)
+  const feedLive = Boolean(selectedCamera?.url) && !loading && !feedError
+  const detection = useVehicleDetection(videoRef, aiOn && feedLive && activeTab === 'live-detect', selectedCameraId)
+  const counting = detection.status === 'running'
+  const { cars, bikes, trucks } = detection.counts
+  const total = cars + bikes + trucks
+  const trafficState = !counting
+    ? null
+    : total >= 10
+      ? { busy: true, title: 'รถค่อนข้างหนาแน่น', hint: 'เผื่อเวลาเดินทางเพิ่มเล็กน้อย' }
+      : total === 0
+        ? { busy: false, title: 'ไม่พบรถในภาพ', hint: 'ถนนว่าง หรือภาพมืด/ไม่ชัดจน AI มองไม่เห็น' }
+        : { busy: false, title: 'ถนนโล่งสบาย', hint: 'ไปได้เลย ทางสะดวก' }
+
+  const aiLabel = {
+    off: 'ปิดอยู่',
+    loading: 'กำลังโหลดโมเดล…',
+    running: 'กำลังนับ',
+    error: 'โหลดโมเดลไม่สำเร็จ',
+  }[detection.status]
 
   return (
     <>
@@ -108,10 +125,19 @@ export default function CameraAI() {
                   <div>
                     <h3>AI ตรวจจับรถสด</h3>
                     <p className="text-sm text-muted mt-xs">
-                      YOLO26x นับรถยนต์ มอเตอร์ไซค์ รถบรรทุก จากภาพกล้องที่เลือก ประมาณ 10 ภาพต่อวินาที
+                      COCO-SSD นับรถยนต์ มอเตอร์ไซค์ รถบรรทุก/รถบัส จากภาพกล้องที่เลือก ประมวลผลในเบราว์เซอร์ราววินาทีละภาพ โดยแบ่งภาพเป็นส่วน ๆ เพื่อจับรถคันเล็กที่อยู่ไกล
                     </p>
                   </div>
-                  <span className="badge badge-neutral">{loading ? '…' : `${cameras.length} กล้อง`}</span>
+                  <button
+                    type="button"
+                    className={`ai-toggle ${aiOn ? 'is-on' : ''} is-${detection.status}`}
+                    onClick={() => setAiOn((v) => !v)}
+                    aria-pressed={aiOn}
+                    title={aiOn ? 'ปิดการนับรถ' : 'เปิดการนับรถ'}
+                  >
+                    <span className="ai-toggle-dot" />
+                    AI {aiLabel}
+                  </button>
                 </div>
 
                 <div className="camera-selector">
@@ -139,9 +165,12 @@ export default function CameraAI() {
                   {selectedCamera && !loadError && <FavoriteButton cameraId={selectedCamera.id} withLabel />}
                 </div>
 
-                <div className="camera-feed">
-                  {selectedCamera?.url && !loading && !feedError ? (
-                    <LiveVideo src={selectedCamera.url} onError={() => setFeedError(true)} />
+                <div className="camera-feed theme-dark">
+                  {feedLive ? (
+                    <>
+                      <LiveVideo src={selectedCamera.url} onError={() => setFeedError(true)} videoRef={videoRef} />
+                      {counting && <DetectionOverlay videoRef={videoRef} detections={detection.detections} />}
+                    </>
                   ) : (
                     <div className="camera-feed-placeholder">
                       <Camera size={40} strokeWidth={1.4} />
@@ -171,26 +200,37 @@ export default function CameraAI() {
             <div className="camera-stats">
               <div className="section-eyebrow">นับได้ในเฟรมล่าสุด</div>
               {[
-                { label: 'รถยนต์', value: counts.cars },
-                { label: 'มอเตอร์ไซค์', value: counts.bikes },
-                { label: 'รถบรรทุก', value: counts.trucks },
+                { label: 'รถยนต์', value: cars, color: 'var(--accent-blue)' },
+                { label: 'มอเตอร์ไซค์', value: bikes, color: 'var(--accent-primary)' },
+                { label: 'รถบรรทุก/รถบัส', value: trucks, color: 'var(--accent-orange)' },
               ].map((s, i) => (
                 <div key={s.label} className="camera-count animate-fadeInUp" style={{ animationDelay: `${i * 80}ms` }}>
-                  <span className="text-sm text-secondary">{s.label}</span>
-                  <span className="camera-count-value">{s.value}</span>
+                  <span className="text-sm text-secondary camera-count-label">
+                    <i style={{ background: s.color }} />
+                    {s.label}
+                  </span>
+                  <span className="camera-count-value">{counting ? s.value : '–'}</span>
                 </div>
               ))}
 
               <div
-                className={`camera-status-card ${busy ? 'is-busy' : ''} animate-fadeInUp`}
+                className={`camera-status-card ${trafficState?.busy ? 'is-busy' : ''} animate-fadeInUp`}
                 style={{ animationDelay: '240ms' }}
               >
                 <span className="text-xs text-muted">หน้ากล้องตอนนี้</span>
-                <span className="camera-status-title">{busy ? 'รถค่อนข้างหนาแน่น' : 'ถนนโล่งสบาย'}</span>
+                <span className="camera-status-title">{trafficState?.title ?? 'รอผลจาก AI'}</span>
                 <span className="text-sm text-secondary">
-                  {busy ? 'เผื่อเวลาเดินทางเพิ่มเล็กน้อย' : 'ไปได้เลย ทางสะดวก'}
+                  {trafficState?.hint ??
+                    (detection.status === 'error'
+                      ? 'เบราว์เซอร์นี้อาจไม่รองรับ WebGL หรือโหลดโมเดลไม่ได้'
+                      : aiOn
+                        ? 'เริ่มนับเมื่อวิดีโอเล่นแล้ว'
+                        : 'เปิด AI เพื่อเริ่มนับรถ')}
                 </span>
               </div>
+              <p className="text-xs text-muted camera-ai-note">
+                นับจากเฟรมปัจจุบันเท่านั้น ความแม่นยำขึ้นกับความชัดของภาพ กลางคืนหรือฝนตกอาจนับได้น้อยกว่าจริง
+              </p>
             </div>
           </div>
         )}

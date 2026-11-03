@@ -30,7 +30,7 @@
 }
 
 .alert-item:hover {
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--ov-2);
 }
 
 .alert-unread {

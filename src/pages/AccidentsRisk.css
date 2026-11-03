@@ -78,12 +78,77 @@
 }
 
 .district-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 96px 1fr 32px;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 0;
+  gap: var(--space-md);
+  padding: 11px 0;
   border-bottom: 1px solid var(--border-card);
   font-size: var(--fs-sm);
+}
+
+.district-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.district-bar {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--ov-3);
+  overflow: hidden;
+}
+
+.district-bar span {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--accent-red);
+  transition: width var(--transition-slow);
+}
+
+.district-count {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.month-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-base);
+  height: 180px;
+  padding-top: var(--space-lg);
+}
+
+.month-bar {
+  flex: 1;
+  max-width: 88px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+}
+
+.month-bar-fill {
+  width: 100%;
+  min-height: 4px;
+  border-radius: 8px 8px 3px 3px;
+  background: linear-gradient(to top, rgba(255, 157, 140, 0.35), rgba(255, 157, 140, 0.85));
+  transition: height var(--transition-slow);
+}
+
+.month-bar-value {
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.month-bar-label {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
 }
 
 .district-item:last-child {

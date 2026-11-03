@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import Hls from 'hls.js'
 
-export default function LiveVideo({ src, onError, className = 'camera-video' }) {
-  const videoRef = useRef(null)
+export default function LiveVideo({ src, onError, className = 'camera-video', videoRef: externalRef }) {
+  const internalRef = useRef(null)
+  const videoRef = externalRef ?? internalRef
   const onErrorRef = useRef(onError)
   onErrorRef.current = onError
   const [playing, setPlaying] = useState(false)
@@ -28,6 +29,8 @@ export default function LiveVideo({ src, onError, className = 'camera-video' }) 
       <video
         ref={videoRef}
         className={className}
+        /* lets frames be read for detection when Safari plays the stream natively */
+        crossOrigin="anonymous"
         autoPlay
         muted
         playsInline

@@ -24,6 +24,80 @@
   gap: var(--space-base);
 }
 
+.water-alert-banner.is-calm {
+  background:
+    linear-gradient(100deg, rgba(159, 230, 184, 0.1), rgba(185, 215, 255, 0.04) 60%, transparent),
+    var(--bg-card);
+  border-color: rgba(159, 230, 184, 0.2);
+}
+
+.station-main {
+  min-width: 0;
+}
+
+.station-level {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.station-bar {
+  position: relative;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--ov-3);
+}
+
+.station-bar span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: var(--radius-full);
+  box-shadow: none !important;
+  transition: width var(--transition-slow);
+}
+
+/* Marker at 100% (bank level) on a 0-130% scale */
+.station-bar-bank {
+  position: absolute;
+  left: calc(100% / 1.3);
+  top: -3px;
+  bottom: -3px;
+  width: 1px;
+  background: var(--ov-6);
+}
+
+.station-pct {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.station-pct strong {
+  color: var(--text-primary);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  margin-left: auto;
+  color: var(--text-muted);
+}
+
+.trend-up {
+  color: var(--accent-red);
+}
+
+.trend-down {
+  color: var(--accent-green);
+}
+
 .water-stations-list {
   display: flex;
   flex-direction: column;
@@ -44,7 +118,7 @@
 }
 
 .water-station-item:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--ov-2);
 }
 
 .water-station-dot {
@@ -72,5 +146,15 @@
 
   .water-alert-banner {
     flex-direction: column;
+  }
+
+  .water-station-item {
+    flex-wrap: wrap;
+  }
+
+  .station-level {
+    order: 3;
+    width: 100%;
+    padding-left: 20px;
   }
 }

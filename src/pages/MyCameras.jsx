@@ -16,7 +16,7 @@ function CameraTile({ cam, autoPlay }) {
 
   return (
     <div className="mycam-tile card">
-      <div className="mycam-video">
+      <div className="mycam-video theme-dark">
         {playing && !error ? (
           <>
             <LiveVideo src={cam.url} onError={() => setError(true)} />

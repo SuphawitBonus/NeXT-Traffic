@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "api": "node --watch server/index.js",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -13,8 +14,14 @@
     "vite": "^8.3.0"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow/tfjs-backend-cpu": "^4.22.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.22.0",
+    "@tensorflow/tfjs-converter": "^4.22.0",
+    "@tensorflow/tfjs-core": "^4.22.0",
     "framer-motion": "^13.4.4",
     "hls.js": "^1.7.3",
     "leaflet": "^1.9.4",

@@ -36,9 +36,9 @@
   gap: 6px;
   padding: 7px 14px;
   border-radius: var(--radius-full);
-  background: rgba(20, 20, 19, 0.85);
+  background: var(--bg-glass);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--ov-5);
   font-size: var(--fs-xs);
   color: var(--text-primary);
   pointer-events: none;
@@ -114,7 +114,7 @@
   padding: var(--space-md);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-secondary);
-  background: rgba(255, 255, 255, 0.015);
+  background: var(--ov-1);
   cursor: pointer;
   transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-base);
 }
@@ -144,7 +144,7 @@
 
 .choice-compact.is-on {
   border-color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--ov-3);
 }
 
 .choice-dot {
@@ -310,7 +310,7 @@
   .photo-drop:hover {
     border-color: var(--text-secondary);
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--ov-2);
   }
 
   .report-delete:hover {

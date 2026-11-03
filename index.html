@@ -1,11 +1,22 @@
 <!doctype html>
-<html lang="th" class="dark" style="color-scheme: dark">
+<html lang="th">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NextTraffic — Bangkok Traffic Analytics</title>
     <meta name="description" content="ระบบวิเคราะห์จราจร กรุงเทพมหานคร แบบเรียลไทม์ กล้อง CCTV น้ำท่วม อุบัติเหตุ AI" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <script>
+      // Set the theme before first paint (same rule as src/lib/theme.js) to avoid a flash
+      (function () {
+        var pref = null
+        try {
+          pref = JSON.parse(localStorage.getItem('nexttraffic:theme'))
+        } catch (e) {}
+        document.documentElement.dataset.theme =
+          pref || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

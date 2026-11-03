@@ -1,13 +1,13 @@
 .map-locate-btn {
   font-size: var(--fs-xs);
-  background: rgba(26, 26, 25, 0.85) !important;
+  background: var(--bg-glass) !important;
   backdrop-filter: blur(8px);
 }
 
 .map-traffic-summary {
   padding: var(--space-base);
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--ov-1);
   border: 1px solid var(--border-card);
   font-size: var(--fs-sm);
   color: var(--text-secondary);
@@ -53,7 +53,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(26, 26, 25, 0.85);
+  background: var(--bg-glass);
   backdrop-filter: blur(8px);
   border: 1px solid var(--border-secondary);
   border-radius: var(--radius-full);
@@ -103,10 +103,10 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(20, 20, 19, 0.9);
+  background: var(--bg-glass);
   backdrop-filter: blur(8px);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--ov-5);
   border-radius: var(--radius-full);
   padding: 5px 12px;
   font-family: var(--font-primary);

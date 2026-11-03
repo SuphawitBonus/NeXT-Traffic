@@ -13,10 +13,10 @@ const AccidentsRisk = lazy(() => import('./pages/AccidentsRisk'))
 const Alerts = lazy(() => import('./pages/Alerts'))
 const MyCameras = lazy(() => import('./pages/MyCameras'))
 const ReportFlood = lazy(() => import('./pages/ReportFlood'))
+const AskAI = lazy(() => import('./pages/AskAI'))
 const ComingSoon = lazy(() => import('./pages/ComingSoon'))
 
 const UPCOMING = [
-  { path: '/ask-ai', title: 'ถาม AI', description: 'ถามเรื่องจราจร น้ำท่วม และเส้นทางในกรุงเทพฯ' },
   { path: '/visitors', title: 'ผู้เข้าชม', description: 'สถิติผู้ใช้งานระบบ NextTraffic' },
 ]
 
@@ -43,6 +43,7 @@ function App() {
             <Route path="/alerts" element={<Alerts />} />
             <Route path="/my-cameras" element={<MyCameras />} />
             <Route path="/report-flood" element={<ReportFlood />} />
+            <Route path="/ask-ai" element={<AskAI />} />
             {UPCOMING.map((p) => (
               <Route key={p.path} path={p.path} element={<ComingSoon title={p.title} description={p.description} />} />
             ))}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { ChevronDown, ArrowRight, Bell, Menu } from 'lucide-react'
+import { ChevronDown, ArrowRight, Bell, Menu, Sun, Moon } from 'lucide-react'
+import { useTheme } from '../lib/theme'
 import { BrandMark } from './Sidebar'
 import { NAV_SECTIONS } from './navConfig'
 import { useUnreadCount } from '../data/alerts'
@@ -85,6 +86,7 @@ function NavGroup({ section, active }) {
 export default function TopNav({ onOpenDrawer }) {
   const { pathname } = useLocation()
   const unread = useUnreadCount()
+  const { theme, toggle } = useTheme()
 
   return (
     <header className="topnav">
@@ -108,6 +110,15 @@ export default function TopNav({ onOpenDrawer }) {
           <span className="live-dot" />
           ข้อมูลสด
         </span>
+        <button
+          type="button"
+          className="btn btn-ghost btn-icon topnav-theme"
+          onClick={toggle}
+          aria-label={theme === 'light' ? 'เปลี่ยนเป็นธีมมืด' : 'เปลี่ยนเป็นธีมสว่าง'}
+          title={theme === 'light' ? 'ธีมมืด' : 'ธีมสว่าง'}
+        >
+          {theme === 'light' ? <Moon size={18} strokeWidth={1.6} /> : <Sun size={18} strokeWidth={1.6} />}
+        </button>
         <Link
           to="/alerts"
           className="btn btn-ghost btn-icon topnav-bell"

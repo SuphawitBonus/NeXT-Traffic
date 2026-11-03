@@ -16,6 +16,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import CityConstellation from '../components/CityConstellation'
+import { useTheme } from '../lib/theme'
 import {
   TRAFFIC_SCORE,
   DASHBOARD_STATS,
@@ -24,6 +25,7 @@ import {
   CCTV_CAMERAS,
   RAIL_STATIONS,
   FLOOD_POINTS,
+  ROAD_DATA,
 } from '../data/mockData'
 import './TrafficDashboard.css'
 
@@ -49,6 +51,12 @@ const LEVEL_RGB = {
   light: '159,230,184',
 }
 
+// Recharts takes colours as SVG attributes, so they can't follow CSS variables
+const CHART_COLORS = {
+  dark: { line: '#b9d7ff', grid: 'rgba(255,255,255,0.05)', tick: '#7a7a73', cursor: 'rgba(255,255,255,0.15)', dot: '#f8f8f5', dotRing: '#141413' },
+  light: { line: '#2f6fdc', grid: 'rgba(20,20,19,0.06)', tick: '#85857d', cursor: 'rgba(20,20,19,0.15)', dot: '#1a1a19', dotRing: '#ffffff' },
+}
+
 const LEVEL_TEXT = { heavy: 'ติดขัด', moderate: 'ปานกลาง', light: 'คล่องตัว' }
 
 const HERO_POINTS = [
@@ -61,17 +69,6 @@ const HERO_POINTS = [
   })),
   ...RAIL_STATIONS.map((s) => ({ lat: s.lat, lng: s.lng, color: '185,215,255', size: 2.2, label: `${s.line} ${s.name}` })),
   ...FLOOD_POINTS.map((f) => ({ lat: f.lat, lng: f.lng, color: '169,255,245', size: 2, label: `${f.name} · ${f.level}` })),
-]
-
-const ROAD_DATA = [
-  { name: 'ถ.สุขุมวิท', score: 35, status: 'ติดขัด', vehicles: 1250 },
-  { name: 'ถ.พหลโยธิน', score: 52, status: 'ปานกลาง', vehicles: 980 },
-  { name: 'ถ.รัชดาภิเษก', score: 45, status: 'ปานกลาง', vehicles: 1100 },
-  { name: 'ถ.วิภาวดีฯ', score: 68, status: 'คล่องตัว', vehicles: 750 },
-  { name: 'ถ.เพชรบุรี', score: 30, status: 'ติดขัด', vehicles: 1320 },
-  { name: 'ถ.พระราม 4', score: 42, status: 'ปานกลาง', vehicles: 890 },
-  { name: 'ถ.สาทร', score: 28, status: 'ติดขัด', vehicles: 1400 },
-  { name: 'ถ.ศรีนครินทร์', score: 75, status: 'คล่องตัว', vehicles: 620 },
 ]
 
 const INCIDENTS = [
@@ -160,10 +157,12 @@ export default function TrafficDashboard() {
   }
 
   const chartData = useMemo(() => TRAFFIC_HOURLY, [])
+  const { theme } = useTheme()
+  const chart = CHART_COLORS[theme]
 
   return (
     <>
-      <section className="dash-hero">
+      <section className="dash-hero theme-dark">
         <CityConstellation points={HERO_POINTS} />
         <div className="dash-hero-content">
           <div className="dash-hero-meta animate-fadeIn">
@@ -316,33 +315,33 @@ export default function TrafficDashboard() {
                   <AreaChart data={chartData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
                     <defs>
                       <linearGradient id="trafficGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#b9d7ff" stopOpacity={0.28} />
-                        <stop offset="100%" stopColor="#b9d7ff" stopOpacity={0} />
+                        <stop offset="0%" stopColor={chart.line} stopOpacity={0.28} />
+                        <stop offset="100%" stopColor={chart.line} stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
+                    <CartesianGrid stroke={chart.grid} vertical={false} />
                     <XAxis
                       dataKey="hour"
-                      tick={{ fill: '#7a7a73', fontSize: 11 }}
+                      tick={{ fill: chart.tick, fontSize: 11 }}
                       axisLine={false}
                       tickLine={false}
                       interval={2}
                     />
                     <YAxis
                       domain={[0, 100]}
-                      tick={{ fill: '#7a7a73', fontSize: 11 }}
+                      tick={{ fill: chart.tick, fontSize: 11 }}
                       axisLine={false}
                       tickLine={false}
                     />
-                    <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'rgba(255,255,255,0.15)' }} />
+                    <Tooltip content={<CustomTooltip />} cursor={{ stroke: chart.cursor }} />
                     <Area
                       type="monotone"
                       dataKey="score"
-                      stroke="#b9d7ff"
+                      stroke={chart.line}
                       strokeWidth={1.75}
                       fill="url(#trafficGrad)"
                       dot={false}
-                      activeDot={{ r: 4, fill: '#f8f8f5', stroke: '#141413', strokeWidth: 2 }}
+                      activeDot={{ r: 4, fill: chart.dot, stroke: chart.dotRing, strokeWidth: 2 }}
                     />
                   </AreaChart>
                 </ResponsiveContainer>

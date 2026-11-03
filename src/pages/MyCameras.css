@@ -43,8 +43,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--ov-4);
+  border: 1px solid var(--ov-5);
   color: var(--text-primary);
   padding-left: 3px;
   transition: transform var(--transition-base), background var(--transition-fast);
@@ -88,7 +88,7 @@
   padding: 4px 4px 4px var(--space-md);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-card);
-  background: rgba(255, 255, 255, 0.015);
+  background: var(--ov-1);
   font-size: var(--fs-sm);
   transition: border-color var(--transition-fast), background var(--transition-fast);
 }
@@ -109,7 +109,7 @@
 
   .mycam-play:hover .mycam-play-icon {
     transform: scale(1.1);
-    background: rgba(255, 255, 255, 0.14);
+    background: var(--ov-5);
   }
 
   .mycam-tile .camera-video {
@@ -121,8 +121,8 @@
   }
 
   .mycam-add-item:hover {
-    border-color: rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.035);
+    border-color: var(--ov-5);
+    background: var(--ov-2);
   }
 
   .mycam-add-item:hover .mycam-add-name {

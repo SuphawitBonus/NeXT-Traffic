@@ -46,6 +46,78 @@
   background: #000;
 }
 
+.detection-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ai-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-secondary);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background var(--transition-fast);
+}
+
+.ai-toggle-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+.ai-toggle.is-on {
+  color: var(--text-primary);
+  border-color: rgba(179, 254, 239, 0.3);
+  background: rgba(179, 254, 239, 0.06);
+}
+
+.ai-toggle.is-running .ai-toggle-dot {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(169, 255, 245, 0.18);
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+.ai-toggle.is-loading .ai-toggle-dot {
+  background: var(--accent-primary);
+  animation: live-pulse 0.8s ease-in-out infinite;
+}
+
+.ai-toggle.is-error {
+  color: var(--accent-red);
+  border-color: rgba(255, 157, 140, 0.35);
+}
+
+.ai-toggle.is-error .ai-toggle-dot {
+  background: var(--accent-red);
+}
+
+.camera-count-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.camera-count-label i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.camera-ai-note {
+  line-height: 1.6;
+  padding: 0 var(--space-xs);
+}
+
 .camera-feed-placeholder {
   position: absolute;
   inset: 0;
@@ -186,7 +258,7 @@
 }
 
 .camera-search-item:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--ov-2);
 }
 
 .camera-search-item.is-current .fw-medium::after {

@@ -398,12 +398,12 @@ export default function TrafficMap() {
                       <div className="popup-body">
                         <div className="popup-camera-preview">
                           {openCameraId === cam.id && !popupError ? (
-                            <div className="popup-video">
+                            <div className="popup-video theme-dark">
                               <LiveVideo src={cam.url} onError={() => setPopupError(true)} />
                               <span className="badge badge-live popup-live">LIVE</span>
                             </div>
                           ) : (
-                            <div className="popup-camera-placeholder">
+                            <div className="popup-camera-placeholder theme-dark">
                               <Camera size={28} strokeWidth={1.4} />
                               <span>{popupError ? 'โหลดภาพจากกล้องไม่สำเร็จ' : 'กำลังเชื่อมต่อ…'}</span>
                             </div>
