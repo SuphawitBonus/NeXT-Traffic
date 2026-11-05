@@ -14,6 +14,7 @@ const Alerts = lazy(() => import('./pages/Alerts'))
 const MyCameras = lazy(() => import('./pages/MyCameras'))
 const ReportFlood = lazy(() => import('./pages/ReportFlood'))
 const AskAI = lazy(() => import('./pages/AskAI'))
+const Explore = lazy(() => import('./pages/Explore'))
 const ComingSoon = lazy(() => import('./pages/ComingSoon'))
 
 const UPCOMING = [
@@ -37,6 +38,7 @@ function App() {
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<TrafficDashboard />} />
             <Route path="/map" element={<TrafficMap />} />
+            <Route path="/explore" element={<Explore />} />
             <Route path="/camera-ai" element={<CameraAI />} />
             <Route path="/water-forecast" element={<WaterForecast />} />
             <Route path="/accidents" element={<AccidentsRisk />} />

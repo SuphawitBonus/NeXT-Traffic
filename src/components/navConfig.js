@@ -1,6 +1,7 @@
 import {
   LayoutDashboard,
   Map,
+  Compass,
   Eye,
   MonitorPlay,
   Droplets,
@@ -18,6 +19,7 @@ export const NAV_SECTIONS = [
     items: [
       { icon: LayoutDashboard, label: 'ภาพรวมจราจร', desc: 'ภาพรวมจราจรทั้งเมืองแบบสด', path: '/dashboard' },
       { icon: Map, label: 'แผนที่จราจร', desc: 'แผนที่จราจร กล้อง และจุดน้ำท่วม', path: '/map' },
+      { icon: Compass, label: 'สำรวจข้อมูล', desc: 'เริ่มจากคำถาม ดูว่าข้อมูลไหนตอบได้', path: '/explore' },
     ],
   },
   {
