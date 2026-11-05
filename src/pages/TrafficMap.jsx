@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap, CircleMarker } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { Navigation, Camera, Droplets, AlertTriangle, TrainFront, ChevronLeft, ChevronRight, MapPin } from 'lucide-react'
 import LiveVideo from '../components/LiveVideo'
 import FavoriteButton from '../components/FavoriteButton'
+import ShareLinkButton from '../components/ShareLinkButton'
 import { reportPinIcon } from '../components/PinPicker'
 import { useFloodReports, levelOf, passabilityOf, timeAgo, SEVERITY_COLOR } from '../data/floodReports'
 import { fetchBangkokCameras } from '../data/cameras'
@@ -50,6 +51,22 @@ function getFloodIcon(level) {
   })
 }
 
+// A view can be opened from a link: /map?layers=cameras,reports&view=13.7563,100.5018,14
+// Only layers that actually draw something are addressable.
+const LINKABLE_LAYERS = ['traffic', 'cameras', 'flood', 'reports']
+const DEFAULT_LAYERS = ['traffic', 'cameras', 'reports']
+
+function parseLayers(param) {
+  if (param == null) return DEFAULT_LAYERS
+  return param.split(',').filter((k) => LINKABLE_LAYERS.includes(k))
+}
+
+function parseView(param) {
+  const [lat, lng, zoom] = (param ?? '').split(',').map(Number)
+  const valid = Math.abs(lat) <= 90 && Math.abs(lng) <= 180 && zoom >= 5 && zoom <= 19
+  return valid ? { center: [lat, lng], zoom: Math.round(zoom) } : null
+}
+
 // Locate control rendered inside MapContainer
 function LocateControl() {
   const map = useMap()
@@ -74,12 +91,33 @@ function LocateControl() {
 }
 
 export default function TrafficMap() {
-  const [showTraffic, setShowTraffic] = useState(true)
-  const [showCameras, setShowCameras] = useState(true)
-  const [showFlood, setShowFlood] = useState(false)
+  const [searchParams] = useSearchParams()
+  // Read once: the map owns its state after it mounts
+  const [initial] = useState(() => ({
+    layers: parseLayers(searchParams.get('layers')),
+    view: parseView(searchParams.get('view')),
+  }))
+  const mapRef = useRef(null)
+  const [showTraffic, setShowTraffic] = useState(initial.layers.includes('traffic'))
+  const [showCameras, setShowCameras] = useState(initial.layers.includes('cameras'))
+  const [showFlood, setShowFlood] = useState(initial.layers.includes('flood'))
   const [showIncidents, setShowIncidents] = useState(false)
   const [showBTS, setShowBTS] = useState(false)
-  const [showReports, setShowReports] = useState(true)
+  const [showReports, setShowReports] = useState(initial.layers.includes('reports'))
+
+  function shareUrl() {
+    const layers = [showTraffic && 'traffic', showCameras && 'cameras', showFlood && 'flood', showReports && 'reports']
+      .filter(Boolean)
+      .join(',')
+    const params = new URLSearchParams({ layers })
+    const map = mapRef.current
+    if (map) {
+      const c = map.getCenter()
+      params.set('view', `${c.lat.toFixed(4)},${c.lng.toFixed(4)},${map.getZoom()}`)
+    }
+    // URLSearchParams encodes commas; they're safe in a query and read better raw
+    return `${window.location.origin}/map?${params.toString().replaceAll('%2C', ',')}`
+  }
   const floodReports = useFloodReports()
   const [panelOpen, setPanelOpen] = useState(true)
   const [liveCameras, setLiveCameras] = useState([])
@@ -118,7 +156,12 @@ export default function TrafficMap() {
           </p>
         </div>
         <div className="page-header-right">
-          <span className="text-sm text-secondary">Leaflet + OpenStreetMap</span>
+          <ShareLinkButton
+            className="btn btn-outline"
+            label="แชร์มุมมองนี้"
+            title="แผนที่จราจร · NextTraffic"
+            getUrl={shareUrl}
+          />
         </div>
       </div>
 
@@ -330,8 +373,9 @@ export default function TrafficMap() {
         {/* Leaflet Map */}
         <div className="map-wrapper">
           <MapContainer
-            center={BANGKOK_CENTER}
-            zoom={12}
+            ref={mapRef}
+            center={initial.view?.center ?? BANGKOK_CENTER}
+            zoom={initial.view?.zoom ?? 12}
             style={{ width: '100%', height: '100%' }}
             zoomControl={true}
           >

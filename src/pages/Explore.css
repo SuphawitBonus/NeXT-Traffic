@@ -1,0 +1,326 @@
+.explore-eyebrow {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+/* — Scope strip: what we cover, each with its boundary — */
+.explore-scope {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  overflow: hidden;
+}
+
+.explore-scope > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-lg) var(--space-xl);
+}
+
+.explore-scope > div + div {
+  border-left: 1px solid var(--border-card);
+}
+
+.explore-scope strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+}
+
+.explore-scope span {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.explore-scope em {
+  font-style: normal;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+}
+
+/* — Sections — */
+.explore-section {
+  margin-top: var(--space-3xl);
+  scroll-margin-top: var(--space-xl);
+}
+
+.explore-section-head {
+  margin-bottom: var(--space-lg);
+}
+
+.explore-section-head h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-medium);
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-xs);
+}
+
+/* — Decision cards — */
+.decision-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-base);
+}
+
+.decision-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-base);
+  padding: var(--space-xl);
+}
+
+.decision-q {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: 1.45;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.decision-uses {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.decision-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-secondary);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.decision-chip:hover {
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+}
+
+.decision-chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+.decision-chip-dot.status-live { background: var(--accent-green); }
+.decision-chip-dot.status-periodic { background: var(--accent-blue); }
+.decision-chip-dot.status-mock { background: var(--accent-primary); }
+
+.decision-cta {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* — Dataset catalog — */
+.dataset-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-base);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-lg);
+}
+
+.dataset-search {
+  position: relative;
+  flex: 1 1 280px;
+  max-width: 420px;
+  color: var(--text-muted);
+}
+
+.dataset-search svg {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.dataset-search input {
+  width: 100%;
+  padding: 10px 18px 10px 42px;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+}
+
+.dataset-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-base);
+  align-items: start;
+}
+
+.dataset-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  scroll-margin-top: var(--space-xl);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.dataset-card.is-highlighted {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px var(--accent-blue-dim);
+}
+
+.dataset-card.is-mock {
+  border-style: dashed;
+}
+
+.dataset-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.dataset-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--ov-2);
+  color: var(--text-secondary);
+}
+
+.dataset-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-xl);
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--border-card);
+  border-bottom: 1px solid var(--border-card);
+}
+
+.dataset-facts dt {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.dataset-facts dd {
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+}
+
+.dataset-metric {
+  font-variant-numeric: tabular-nums;
+}
+
+.dataset-limits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+}
+
+.dataset-limits h4 {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.dataset-limits ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.dataset-limits li {
+  display: flex;
+  gap: var(--space-sm);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.dataset-limits li svg {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.dataset-questions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.dataset-question {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--ov-2);
+}
+
+.dataset-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.dataset-source a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--text-secondary);
+}
+
+.dataset-source a:hover {
+  color: var(--text-primary);
+}
+
+.explore-cta {
+  margin-top: var(--space-3xl);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.explore-cta strong {
+  color: var(--text-primary);
+  font-weight: var(--fw-medium);
+}
+
+@media (max-width: 900px) {
+  .explore-scope,
+  .decision-grid,
+  .dataset-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .explore-scope > div + div {
+    border-left: none;
+    border-top: 1px solid var(--border-card);
+  }
+}
+
+@media (max-width: 560px) {
+  .dataset-limits {
+    grid-template-columns: 1fr;
+  }
+
+  .dataset-search {
+    max-width: none;
+  }
+}
