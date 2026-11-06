@@ -35,7 +35,7 @@ function App() {
       <main className="main-content">
         <Suspense fallback={<div className="page-loading" aria-busy="true" />}>
           <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/" element={<Navigate to="/explore" replace />} />
             <Route path="/dashboard" element={<TrafficDashboard />} />
             <Route path="/map" element={<TrafficMap />} />
             <Route path="/explore" element={<Explore />} />
@@ -49,7 +49,7 @@ function App() {
             {UPCOMING.map((p) => (
               <Route key={p.path} path={p.path} element={<ComingSoon title={p.title} description={p.description} />} />
             ))}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/explore" replace />} />
           </Routes>
         </Suspense>
       </main>
