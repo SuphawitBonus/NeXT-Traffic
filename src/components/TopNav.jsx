@@ -90,7 +90,7 @@ export default function TopNav({ onOpenDrawer }) {
 
   return (
     <header className="topnav">
-      <Link to="/dashboard" className="topnav-brand">
+      <Link to="/explore" className="topnav-brand">
         <BrandMark size={28} />
         <span>NextTraffic</span>
       </Link>
